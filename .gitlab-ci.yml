@@ -11,13 +11,23 @@ format-check:
   stage: check
   script:
     - echo "Checking code formatting..."
+    - find include -name '*.h' -o -name '*.hpp' | xargs clang-format-16 -n -Werror
     
 build:
   stage: build
   script:
     - echo "Compiling the code..."
+    - cmake -B build -S .
+    - cmake --build build
+  artifacts:
+    paths:
+      - build
+    expire_in: 15 minutes
 
 unit-test:
   stage: test
+  dependencies:
+    - build
   script:
     - echo "Running unit tests..."
+    - ./build/fsm_test
