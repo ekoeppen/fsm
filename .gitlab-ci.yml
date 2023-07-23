@@ -1,0 +1,23 @@
+default:
+  image: registry.gitlab.com/40hz/docker-images/cpp:3.18
+
+stages:
+  - check
+  - build
+  - test
+
+format-check:
+  image: registry.gitlab.com/40hz/docker-images/remix:6.1.9
+  stage: check
+  script:
+    - echo "Checking code formatting..."
+    
+build:
+  stage: build
+  script:
+    - echo "Compiling the code..."
+
+unit-test:
+  stage: test
+  script:
+    - echo "Running unit tests..."
