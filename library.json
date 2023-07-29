@@ -1,0 +1,17 @@
+{
+  "name": "fsm",
+  "version": "0.1.0",
+  "description": "A simple finite state machine in C++",
+  "keywords": "c++, fsm",
+  "repository": {
+    "type": "git",
+    "url": "https://gitlab.com/40hz/cpp/fsm.git"
+  },
+  "authors": {
+    "name": "Eckhart Koeppen",
+    "email": "eck@40hz.org",
+    "url": "https://40hz.org/"
+  },
+  "license": "MIT",
+  "homepage": "https://gitlab.com/40hz/cpp/fsm"
+}
