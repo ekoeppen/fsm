@@ -1,39 +1,54 @@
 #pragma once
 
-#include <optional>
-#include <vector>
-
 namespace fsm {
 
-template <typename E, typename S, typename A> struct Action {
-  std::optional<E> event{};
-  std::optional<A> action{};
-  std::optional<S> newState{};
+template <typename T> struct Optional {
+  T value;
+  bool hasValue;
+
+  constexpr Optional() : value{}, hasValue(false) {}
+  constexpr Optional(T t) : value(t), hasValue(true) {}
+  operator bool() const { return hasValue; }
+  auto operator==(T t) const -> bool { return hasValue && value == t; }
+  auto operator!=(T t) const -> bool { return !hasValue || value != t; }
+};
+
+template <typename T> struct Array {
+  typedef const T *const_pointer;
+  typedef const T *const_iterator;
+
+  template <size_t initSize>
+  constexpr Array(T const (&initPtr)[initSize])
+      : beginPtr(initPtr), endPtr(initPtr + initSize) {}
+
+  const_iterator begin() { return beginPtr; }
+  const_iterator end() const { return endPtr; }
+
+  const_pointer beginPtr;
+  const_pointer endPtr;
 };
 
 template <typename E, typename S, typename A> struct Transition {
   S state;
-  std::vector<Action<E, S, A>> actions;
+  Optional<E> event{};
+  Optional<A> action{};
+  Optional<S> newState{};
 };
 
 template <typename E, typename S, typename A> struct Fsm {
   S state;
-  std::vector<Transition<E, S, A>> transitions;
+  Array<Transition<E, S, A>> transitions;
 
-  auto input(E event) -> std::optional<A> {
+  auto input(E event) -> Optional<A> {
     for (auto t : transitions) {
-      if (t.state == state) {
-        for (auto a : t.actions) {
-          if (!a.event || a.event == event) {
-            if (a.newState) {
-              state = a.newState.value();
-            }
-            return a.action;
-          }
+      if (t.state == state && (!t.event || t.event == event)) {
+        if (t.newState) {
+          state = t.newState.value;
         }
+        return t.action;
       }
     }
-    return {};
+    return Optional<A>{};
   }
 };
 
