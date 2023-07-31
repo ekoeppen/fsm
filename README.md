@@ -52,10 +52,10 @@ enum Event {
 };
 ```
 
-The possible transitions are defined in a C style array:
+The possible transitions are defined in a standard array:
 
 ```c++
-constexpr fsm::Transition<Event, State, Action> transitions[] = {
+constexpr std::array<fsm::Transition<Event, State, Action>, 4> transitions{{
     {.state = Top, .event = ButtonUp},
     {.state = Top, .event = ButtonDown, .action = MoveDown, .newState = Bottom},
     {.state = Bottom, .event = ButtonDown},
