@@ -1,6 +1,6 @@
 # FSM
 
-A simple finite state machine implementation in a single header in C++14 for
+A simple finite state machine implementation in a single header in C++20 for
 use in embedded targets.
 
 ## Design
@@ -13,21 +13,20 @@ of:
 - an optional action identifier
 - an optional new state if the transition is activated
 
-The transition is a templated `struct`, which takes the event, state and
-action types as template parameters. The state and event types need to
-support the `==` operator (in C++20 terms `equality_comparable`).
+The transition is a templated `struct`, which takes the event, state and action
+types as well as an array of transitions as template parameters. The state and
+event types need to support the `==` operator, and the transitions parameter
+needs to be iterable.
 
-An FSM is a `struct` containing the transitions as well as the current state,
-and it provides one member function (`input`). The `input` function takes
-an event as parameter, and returns the optional action for the matching
-transition. It also changes the state of the FSM accordingly.
+An FSM is a `struct` containing the current state, and it provides one member
+function (`input`). The `input` function takes an event as parameter, and
+returns the optional action for the matching transition. It also changes the
+state of the FSM accordingly.
 
 ## Implementation
 
-The implementation is aimed at embedded targets, and therefore uses dedicated
-datatypes for the `Optional` and `Array` data structures instead of the C++
-standard library. The transitions are initialized from a C array of the
-`Transition` structure.
+The implementation is aimed at embedded targets, and therefore uses a dedicated
+datatype for the `Optional` data structure instead of the C++ standard library.
 
 Unit tests are implemented using [doctest](https://github.com/doctest/doctest)
 
@@ -68,9 +67,8 @@ The actual FSM ties together the transitions and the state with its initial
 value:
 
 ```c++
-auto elevator = fsm::Fsm<Event, State, Action>{
+auto elevator = fsm::Fsm<Event, State, Action, transitions>{
     .state = Top,
-    .transitions = transitions,
 };
 ```
 

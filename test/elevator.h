@@ -1,5 +1,7 @@
 #pragma once
 
+#include <array>
+
 #include "doctest.h"
 #include "fsm.h"
 
@@ -20,16 +22,15 @@ enum Event {
   ButtonDown,
 };
 
-constexpr fsm::Transition<Event, State, Action> transitions[] = {
+constexpr std::array<fsm::Transition<Event, State, Action>, 4> transitions{{
     {.state = Top, .event = ButtonUp},
     {.state = Top, .event = ButtonDown, .action = MoveDown, .newState = Bottom},
     {.state = Bottom, .event = ButtonDown},
     {.state = Bottom, .event = ButtonUp, .action = MoveUp, .newState = Top},
-};
+}};
 
-auto elevator = fsm::Fsm<Event, State, Action>{
+auto elevator = fsm::Fsm<Event, State, Action, transitions>{
     .state = Top,
-    .transitions = transitions,
 };
 
 TEST_CASE("Elevator") {

@@ -10,4 +10,4 @@ add_custom_target(
 
 add_executable(fsm_test test/main.cpp)
 target_include_directories(fsm_test PRIVATE include)
-set_property(TARGET fsm_test PROPERTY CXX_STANDARD 14)
+set_property(TARGET fsm_test PROPERTY CXX_STANDARD 20)
