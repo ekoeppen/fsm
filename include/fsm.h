@@ -27,8 +27,8 @@ template <typename E, typename S, typename A, auto transitions> struct Fsm {
 
   auto input(E event) -> Optional<A> {
     for (auto t : transitions) {
-      if (t.state == state && (!t.event || t.event == event)) {
-        if (t.newState) {
+      if (t.state == state && (!t.event.hasValue || t.event.value == event)) {
+        if (t.newState.hasValue) {
           state = t.newState.value;
         }
         return t.action;

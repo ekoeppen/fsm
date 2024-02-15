@@ -1,6 +1,6 @@
 {
-  "name": "fsm",
-  "version": "0.2.0",
+  "name": "simple-fsm",
+  "version": "0.2.1",
   "description": "A simple finite state machine in C++",
   "keywords": "c++, fsm",
   "repository": {
