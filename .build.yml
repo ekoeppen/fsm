@@ -1,0 +1,18 @@
+image: alpine/edge
+packages:
+  - build-base
+  - cmake
+  - clang19-extra-tools
+sources:
+  - https://git.sr.ht/~ekoeppen/fsm
+tasks:
+  - build: |
+      cd fsm
+      cmake -B build -S .
+      cmake --build build
+  - lint: |
+      cd fsm
+      find include -name '*.h' -o -name '*.hpp' | xargs clang-format -n -Werror
+  - test: |
+      cd fsm
+      ./build/fsm_test
