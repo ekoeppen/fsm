@@ -1,5 +1,7 @@
 # FSM
 
+[![builds.sr.ht status](https://builds.sr.ht/~ekoeppen/fsm.svg)](https://builds.sr.ht/~ekoeppen/fsm?)
+
 A simple finite state machine implementation in a single header in C++20 for
 use in embedded targets.
 
