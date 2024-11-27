@@ -4,26 +4,19 @@ packages:
   - cmake
   - clang19-extra-tools
 secrets:
-  - fa19c627-c19e-46f1-9257-30f9a6f15516
+  - ca99d209-296a-41b7-9eda-454250e4b901
 environment:
   REPO: fsm
 sources:
   - https://git.sr.ht/~ekoeppen/fsm
+  - https://git.sr.ht/~ekoeppen/build-scripts
 tasks:
   - build: |
-      cd fsm
+      cd $REPO
       cmake -B build -S .
       cmake --build build
-  - lint: |
-      cd $REPO
-      find include -name '*.h' -o -name '*.hpp' | xargs clang-format -n -Werror
+  - lint: ./build-scripts/clang-lint clang-format $REPO include
   - test: |
       cd $REPO
       ./build/fsm_test
-  - mirror-to-github: |
-      if [ "$GIT_REF" == "refs/heads/main" ] && [ -e "$HOME/.token" ]
-      then
-        cd $REPO
-        set +x
-        git push --mirror "https://ekoeppen:$(cat $HOME/.token)@github.com/ekoeppen/$REPO"
-      fi
+  - mirror-to-github: ./build-scripts/github-mirror $REPO
