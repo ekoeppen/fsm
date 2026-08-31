@@ -1,14 +1,11 @@
 # FSM
 
-[![builds.sr.ht status](https://builds.sr.ht/~ekoeppen/fsm.svg)](https://builds.sr.ht/~ekoeppen/fsm?)
-
-A simple finite state machine implementation in a single header in C++20 for
-use in embedded targets.
+A simple finite state machine implementation in a single header in C++20 for use
+in embedded targets.
 
 ## Design
 
-The FSM uses a list of possible transitions which are defined as a tuple
-of:
+The FSM uses a list of possible transitions which are defined as a tuple of:
 
 - the state to which the transition applies
 - the event which will trigger the transition
@@ -34,8 +31,8 @@ Unit tests are implemented using [doctest](https://github.com/doctest/doctest)
 
 ## Example
 
-The file [test/elevator.h](test/elevator.h) contains an FSM for a simple elevator
-with two stops. It uses `enum`s for the state, action and event types:
+The file [test/elevator.h](test/elevator.h) contains an FSM for a simple
+elevator with two stops. It uses `enum`s for the state, action and event types:
 
 ```c++
 enum State {
@@ -74,8 +71,8 @@ auto elevator = fsm::Fsm<Event, State, Action, transitions>{
 };
 ```
 
-On handling the `ButtonDown` event, the FSM's `input` function returns `MoveDown`
-as the action and changes the state to `Botton`:
+On handling the `ButtonDown` event, the FSM's `input` function returns
+`MoveDown` as the action and changes the state to `Botton`:
 
 ```c++
 CHECK(elevator.input(ButtonDown) == MoveDown);
